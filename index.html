@@ -13,10 +13,9 @@
             background-color: #000; 
             color: #fff; 
             font-family: 'Inter', sans-serif;
-            overflow: hidden; /* Mengunci scroll untuk feel 'cover' majalah */
+            overflow-x: hidden; /* Sekarang bisa scroll ke bawah */
         }
 
-        /* Tipografi Vertikal ala Foto */
         .vertical-text {
             writing-mode: vertical-rl;
             text-orientation: mixed;
@@ -37,13 +36,48 @@
         .reveal { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
         .line { display: block; transform: translateY(100%); }
         
-        /* Garis pembatas tipis ala editorial */
         .border-thin { border-color: rgba(255,255,255,0.1); }
+
+        /* --- TAMBAHAN BARU: Ikon Chat & Lingkaran Berputar --- */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+
+        .dotted-circle {
+            width: 80px;
+            height: 80px;
+            border: 2px dotted #ffeb3b; /* Warna kuning seperti di foto */
+            border-radius: 50%;
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .chat-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffeb3b;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
-    <div class="h-screen w-full flex flex-col p-6 md:p-12">
-        
+    <div class="h-screen w-full flex flex-col p-6 md:p-12 border-b border-thin">
         <header class="flex justify-between items-center mb-12 opacity-0" id="nav">
             <div class="text-xl font-black tracking-tighter uppercase">ALI WAFIR</div>
             <nav class="space-x-8 text-xs uppercase tracking-[0.2em] font-bold text-gray-400">
@@ -54,7 +88,6 @@
         </header>
 
         <main class="flex-grow grid grid-cols-12 gap-4 border-t border-thin pt-12">
-            
             <div class="col-span-2 md:col-span-1 flex items-end pb-8">
                 <h2 class="vertical-text text-6xl md:text-8xl font-black tracking-tighter opacity-20 select-none">
                     PORTFOLIO
@@ -83,7 +116,32 @@
                 </div>
             </div>
         </main>
+    </div>
 
+    <div class="min-h-screen w-full p-6 md:p-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 pt-20">
+            <div class="space-y-6 border-t border-thin pt-6">
+                <div class="text-xs tracking-widest text-gray-500 uppercase">Project One</div>
+                <div class="aspect-video bg-zinc-900 border border-thin overflow-hidden group">
+                    <div class="w-full h-full bg-zinc-800 transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
+                </div>
+                <h3 class="text-4xl font-black tracking-tighter uppercase outline-text">User Experience</h3>
+            </div>
+            <div class="space-y-6 border-t border-thin pt-6">
+                <div class="text-xs tracking-widest text-gray-500 uppercase">Project Two</div>
+                <div class="aspect-video bg-zinc-900 border border-thin overflow-hidden group">
+                    <div class="w-full h-full bg-zinc-800 transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
+                </div>
+                <h3 class="text-4xl font-black tracking-tighter uppercase">Visual Identity</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-widget">
+        <div class="dotted-circle"></div>
+        <div class="chat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
     </div>
 
     <script>

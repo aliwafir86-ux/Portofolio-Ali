@@ -10,10 +10,34 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
         
         body { 
-            background-color: #000; 
-            color: #fff; 
+            background-color: #1a1a1a; /* Ganti ke Abu-abu Gelap */
+            color: #d1d1d1; /* Teks Abu-abu Terang */
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden; /* Sekarang bisa scroll ke bawah */
+            overflow-x: hidden;
+            cursor: none; /* Sembunyikan kursor asli */
+        }
+
+        /* --- Kursor Kustom ala Foto --- */
+        #custom-cursor {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+            mix-blend-mode: difference;
+        }
+
+        #custom-cursor::after {
+            content: '↗'; /* Simbol panah sesuai foto */
+            color: #fff;
+            font-size: 24px;
         }
 
         .vertical-text {
@@ -24,7 +48,7 @@
 
         .outline-text {
             color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
             transition: all 0.5s ease;
         }
 
@@ -38,7 +62,6 @@
         
         .border-thin { border-color: rgba(255,255,255,0.1); }
 
-        /* --- TAMBAHAN BARU: Ikon Chat & Lingkaran Berputar --- */
         .chat-widget {
             position: fixed;
             bottom: 30px;
@@ -49,7 +72,7 @@
         .dotted-circle {
             width: 80px;
             height: 80px;
-            border: 2px dotted #ffeb3b; /* Warna kuning seperti di foto */
+            border: 2px dotted #ffeb3b;
             border-radius: 50%;
             animation: spin 10s linear infinite;
         }
@@ -77,10 +100,12 @@
     </style>
 </head>
 <body>
-    <div class="h-screen w-full flex flex-col p-6 md:p-12 border-b border-thin">
+    <div id="custom-cursor"></div>
+
+    <div class="h-screen w-full flex flex-col p-6 md:p-12 border-b border-thin bg-[#1a1a1a]">
         <header class="flex justify-between items-center mb-12 opacity-0" id="nav">
-            <div class="text-xl font-black tracking-tighter uppercase">ALI WAFIR</div>
-            <nav class="space-x-8 text-xs uppercase tracking-[0.2em] font-bold text-gray-400">
+            <div class="text-xl font-black tracking-tighter uppercase text-white">ALI WAFIR</div>
+            <nav class="space-x-8 text-xs uppercase tracking-[0.2em] font-bold text-gray-500">
                 <a href="#" class="hover:text-white transition-colors">Work</a>
                 <a href="#" class="hover:text-white transition-colors">About</a>
                 <a href="#" class="hover:text-white transition-colors">Contact</a>
@@ -89,13 +114,13 @@
 
         <main class="flex-grow grid grid-cols-12 gap-4 border-t border-thin pt-12">
             <div class="col-span-2 md:col-span-1 flex items-end pb-8">
-                <h2 class="vertical-text text-6xl md:text-8xl font-black tracking-tighter opacity-20 select-none">
+                <h2 class="vertical-text text-6xl md:text-8xl font-black tracking-tighter opacity-10 select-none text-white">
                     PORTFOLIO
                 </h2>
             </div>
 
             <div class="col-span-10 md:col-span-7 flex flex-col justify-end pb-8">
-                <h1 class="text-[15vw] md:text-[12vw] font-black leading-[0.8] uppercase tracking-tighter">
+                <h1 class="text-[15vw] md:text-[12vw] font-black leading-[0.8] uppercase tracking-tighter text-white">
                     <span class="reveal block"><span class="line outline-text">Digital</span></span>
                     <span class="reveal block"><span class="line">Product</span></span>
                     <span class="reveal block"><span class="line outline-text">Designer</span></span>
@@ -105,34 +130,34 @@
             <div class="hidden md:col-span-4 md:flex flex-col justify-between border-l border-thin pl-12 pb-8">
                 <div class="opacity-0" id="year-text">
                     <span class="text-xs tracking-[0.5em] text-gray-500 uppercase block mb-2">Established</span>
-                    <span class="text-4xl font-light tracking-tighter italic">2026</span>
+                    <span class="text-4xl font-light tracking-tighter italic text-white">2026</span>
                 </div>
                 
                 <div class="opacity-0 translate-y-10" id="subtext">
                     <p class="text-sm leading-relaxed text-gray-400 max-w-xs mb-8 uppercase tracking-widest">
                         Menciptakan solusi digital yang berani dan berdampak tinggi. Berbasis di Indonesia.
                     </p>
-                    <div class="w-12 h-[1px] bg-white opacity-50"></div>
+                    <div class="w-12 h-[1px] bg-white opacity-30"></div>
                 </div>
             </div>
         </main>
     </div>
 
-    <div class="min-h-screen w-full p-6 md:p-12">
+    <div class="min-h-screen w-full p-6 md:p-12 bg-[#1a1a1a]">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 pt-20">
             <div class="space-y-6 border-t border-thin pt-6">
                 <div class="text-xs tracking-widest text-gray-500 uppercase">Project One</div>
-                <div class="aspect-video bg-zinc-900 border border-thin overflow-hidden group">
-                    <div class="w-full h-full bg-zinc-800 transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
+                <div class="aspect-video bg-[#262626] border border-thin overflow-hidden group">
+                    <div class="w-full h-full bg-[#2a2a2a] transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
                 </div>
                 <h3 class="text-4xl font-black tracking-tighter uppercase outline-text">User Experience</h3>
             </div>
             <div class="space-y-6 border-t border-thin pt-6">
                 <div class="text-xs tracking-widest text-gray-500 uppercase">Project Two</div>
-                <div class="aspect-video bg-zinc-900 border border-thin overflow-hidden group">
-                    <div class="w-full h-full bg-zinc-800 transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
+                <div class="aspect-video bg-[#262626] border border-thin overflow-hidden group">
+                    <div class="w-full h-full bg-[#2a2a2a] transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
                 </div>
-                <h3 class="text-4xl font-black tracking-tighter uppercase">Visual Identity</h3>
+                <h3 class="text-4xl font-black tracking-tighter uppercase text-white">Visual Identity</h3>
             </div>
         </div>
     </div>
@@ -145,6 +170,17 @@
     </div>
 
     <script>
+        // Logika Kursor Mengikuti Mouse
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
         window.addEventListener('load', () => {
             const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
 

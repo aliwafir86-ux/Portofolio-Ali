@@ -61,7 +61,6 @@
         
         .border-thin { border-color: rgba(255,255,255,0.1); }
 
-        /* --- STYLING CHAT WIDGET --- */
         .chat-widget {
             position: fixed;
             bottom: 30px;
@@ -99,7 +98,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        /* --- MODAL MESSAGE ME --- */
         #chat-modal {
             position: fixed;
             bottom: 120px;
@@ -182,19 +180,23 @@
             <div class="close-btn" id="close-chat">✕</div>
             <h2 class="text-xl font-bold">Message me</h2>
         </div>
-        <div class="input-group">
-            <label>Name</label>
-            <input type="text" id="sender-name" placeholder="Your name">
-        </div>
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="sender-email" placeholder="Your email">
-        </div>
-        <div class="input-group">
-            <label>Quick message</label>
-            <textarea id="sender-msg" rows="3" placeholder="How can I help?"></textarea>
-        </div>
-        <button class="send-btn" onclick="sendMail()">Send message</button>
+        
+        <form action="https://formspree.io/f/mazaimza99@gmail.com" method="POST" id="email-form">
+            <div class="input-group">
+                <label>Name</label>
+                <input type="text" name="name" required placeholder="Your name">
+            </div>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required placeholder="Your email">
+            </div>
+            <div class="input-group">
+                <label>Quick message</label>
+                <textarea name="message" rows="3" required placeholder="How can I help?"></textarea>
+            </div>
+            <button type="submit" class="send-btn">Send message</button>
+        </form>
+        
         <p class="text-[10px] text-center text-gray-400 mt-3">Average response time 2 hours</p>
     </div>
 
@@ -276,13 +278,11 @@
             });
         });
 
-        // LOGIKA BUKA TUTUP CHAT (PERBAIKAN)
         const openChat = document.getElementById('open-chat');
         const closeChat = document.getElementById('close-chat');
         const chatModal = document.getElementById('chat-modal');
 
         openChat.addEventListener('click', () => {
-            // Jika modal sedang tertutup, tampilkan.
             if (chatModal.style.display === 'none' || chatModal.style.display === '') {
                 chatModal.style.display = 'block';
                 gsap.fromTo(chatModal, 
@@ -290,7 +290,6 @@
                     { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" }
                 );
             } else {
-                // Jika sudah terbuka, klik ikon kuning akan menutupnya
                 tutupModal();
             }
         });
@@ -301,18 +300,6 @@
             gsap.to(chatModal, { scale: 0.5, opacity: 0, duration: 0.3, onComplete: () => {
                 chatModal.style.display = 'none';
             }});
-        }
-
-        // FUNGSI KIRIM EMAIL
-        function sendMail() {
-            const name = document.getElementById('sender-name').value;
-            const email = document.getElementById('sender-email').value;
-            const message = document.getElementById('sender-msg').value;
-            
-            const subject = encodeURIComponent(`Project Inquiry from ${name}`);
-            const body = encodeURIComponent(`Hello Ali,\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-            
-            window.location.href = `mailto:mazaimza99@gmail.com?subject=${subject}&body=${body}`;
         }
 
         window.addEventListener('load', () => {

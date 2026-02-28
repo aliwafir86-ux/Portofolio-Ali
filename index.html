@@ -1,322 +1,48 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Wafir | Digital Designer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
-        
-        body { 
-            background-color: #1a1a1a; 
-            color: #d1d1d1; 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            cursor: none; 
-        }
+// Menangani pengiriman form tanpa pindah halaman
+const form = document.getElementById('email-form');
+const btnSend = form.querySelector('.send-btn');
 
-        #custom-cursor {
-            width: 80px;
-            height: 80px;
-            border: 1px solid #fff;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-            mix-blend-mode: difference;
-        }
+form.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Mencegah reload halaman
+    
+    // Ubah teks tombol saat loading
+    const originalText = btnSend.innerText;
+    btnSend.innerText = "Mengirim...";
+    btnSend.disabled = true;
 
-        #custom-cursor::after {
-            content: '↗';
-            color: #fff;
-            font-size: 24px;
-        }
+    const formData = new FormData(form);
 
-        .vertical-text {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-        }
-
-        .outline-text {
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
-            transition: all 0.5s ease;
-        }
-
-        .outline-text:hover {
-            color: #fff;
-            -webkit-text-stroke: 1px #fff;
-        }
-
-        .reveal { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
-        .line { display: block; transform: translateY(100%); }
-        
-        .border-thin { border-color: rgba(255,255,255,0.1); }
-
-        .chat-widget {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            cursor: pointer;
-        }
-
-        .dotted-circle {
-            width: 80px;
-            height: 80px;
-            border: 2px dotted #ffeb3b;
-            border-radius: 50%;
-            animation: spin 10s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .chat-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #ffeb3b;
-            color: #000;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        #chat-modal {
-            position: fixed;
-            bottom: 120px;
-            right: 30px;
-            width: 350px;
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            color: black;
-            z-index: 1000;
-            display: none; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            transform-origin: bottom right;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .profile-img {
-            width: 60px;
-            height: 60px;
-            background: #ddd;
-            border-radius: 50%;
-            margin: -50px auto 10px;
-            border: 4px solid white;
-            overflow: hidden;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .input-group input, .input-group textarea {
-            width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .send-btn {
-            width: 100%;
-            background: #111;
-            color: white;
-            padding: 12px;
-            border-radius: 30px;
-            font-weight: bold;
-            margin-top: 10px;
-            transition: opacity 0.3s;
-        }
-    </style>
-</head>
-<body>
-    <div id="custom-cursor"></div>
-
-    <div id="chat-modal">
-        <div class="modal-header">
-            <div class="profile-img">
-                <img src="https://i.pravatar.cc/100?u=ali" alt="Ali">
-            </div>
-            <div class="close-btn" id="close-chat">✕</div>
-            <h2 class="text-xl font-bold">Message me</h2>
-        </div>
-        
-        <form action="https://formspree.io/f/maqdkayq" method="POST" id="email-form">
-            <div class="input-group">
-                <label>Name</label>
-                <input type="text" name="name" required placeholder="Your name">
-            </div>
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" name="email" required placeholder="Your email">
-            </div>
-            <div class="input-group">
-                <label>Quick message</label>
-                <textarea name="message" rows="3" required placeholder="How can I help?"></textarea>
-            </div>
-            <button type="submit" class="send-btn">Send message</button>
-        </form>
-        
-        <p class="text-[10px] text-center text-gray-400 mt-3">Average response time 2 hours</p>
-    </div>
-
-    <div class="h-screen w-full flex flex-col p-6 md:p-12 border-b border-thin bg-[#1a1a1a]">
-        <header class="flex justify-between items-center mb-12 opacity-0" id="nav">
-            <div class="text-xl font-black tracking-tighter uppercase text-white">ALI WAFIR</div>
-            <nav class="space-x-8 text-xs uppercase tracking-[0.2em] font-bold text-gray-500">
-                <a href="#" class="hover:text-white transition-colors">Work</a>
-                <a href="#" class="hover:text-white transition-colors">About</a>
-                <a href="#" class="hover:text-white transition-colors">Contact</a>
-            </nav>
-        </header>
-
-        <main class="flex-grow grid grid-cols-12 gap-4 border-t border-thin pt-12">
-            <div class="col-span-2 md:col-span-1 flex items-end pb-8">
-                <h2 class="vertical-text text-6xl md:text-8xl font-black tracking-tighter opacity-10 select-none text-white">
-                    PORTFOLIO
-                </h2>
-            </div>
-
-            <div class="col-span-10 md:col-span-7 flex flex-col justify-end pb-8">
-                <h1 class="text-[15vw] md:text-[12vw] font-black leading-[0.8] uppercase tracking-tighter text-white">
-                    <span class="reveal block"><span class="line outline-text">Digital</span></span>
-                    <span class="reveal block"><span class="line">Product</span></span>
-                    <span class="reveal block"><span class="line outline-text">Designer</span></span>
-                </h1>
-            </div>
-
-            <div class="hidden md:col-span-4 md:flex flex-col justify-between border-l border-thin pl-12 pb-8">
-                <div class="opacity-0" id="year-text">
-                    <span class="text-xs tracking-[0.5em] text-gray-500 uppercase block mb-2">Established</span>
-                    <span class="text-4xl font-light tracking-tighter italic text-white">2026</span>
-                </div>
-                
-                <div class="opacity-0 translate-y-10" id="subtext">
-                    <p class="text-sm leading-relaxed text-gray-400 max-w-xs mb-8 uppercase tracking-widest">
-                        Menciptakan solusi digital yang berani dan berdampak tinggi. Berbasis di Indonesia.
-                    </p>
-                    <div class="w-12 h-[1px] bg-white opacity-30"></div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <div class="min-h-screen w-full p-6 md:p-12 bg-[#1a1a1a]">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 pt-20">
-            <div class="space-y-6 border-t border-thin pt-6">
-                <div class="text-xs tracking-widest text-gray-500 uppercase">Project One</div>
-                <div class="aspect-video bg-[#262626] border border-thin overflow-hidden group">
-                    <div class="w-full h-full bg-[#2a2a2a] transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
-                </div>
-                <h3 class="text-4xl font-black tracking-tighter uppercase outline-text">User Experience</h3>
-            </div>
-            <div class="space-y-6 border-t border-thin pt-6">
-                <div class="text-xs tracking-widest text-gray-500 uppercase">Project Two</div>
-                <div class="aspect-video bg-[#262626] border border-thin overflow-hidden group">
-                    <div class="w-full h-full bg-[#2a2a2a] transition-transform group-hover:scale-105 duration-700 flex items-center justify-center text-zinc-600 italic">Work Preview</div>
-                </div>
-                <h3 class="text-4xl font-black tracking-tighter uppercase text-white">Visual Identity</h3>
-            </div>
-        </div>
-    </div>
-
-    <div class="chat-widget" id="open-chat">
-        <div class="dotted-circle"></div>
-        <div class="chat-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-        </div>
-    </div>
-
-    <script>
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.1,
-                ease: "power2.out"
-            });
-        });
-
-        const openChat = document.getElementById('open-chat');
-        const closeChat = document.getElementById('close-chat');
-        const chatModal = document.getElementById('chat-modal');
-
-        openChat.addEventListener('click', () => {
-            if (chatModal.style.display === 'none' || chatModal.style.display === '') {
-                chatModal.style.display = 'block';
-                gsap.fromTo(chatModal, 
-                    { scale: 0.5, opacity: 0 }, 
-                    { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" }
-                );
-            } else {
-                tutupModal();
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
             }
         });
 
-        closeChat.addEventListener('click', tutupModal);
-
-        function tutupModal() {
-            gsap.to(chatModal, { scale: 0.5, opacity: 0, duration: 0.3, onComplete: () => {
-                chatModal.style.display = 'none';
-            }});
+        if (response.ok) {
+            // Notifikasi Sukses
+            form.innerHTML = `
+                <div class="text-center py-10">
+                    <div class="text-4xl mb-4">✅</div>
+                    <h3 class="text-xl font-bold mb-2">Pesan Terkirim!</h3>
+                    <p class="text-gray-500 text-sm">Terima kasih, Ali akan segera menghubungimu.</p>
+                </div>
+            `;
+            
+            // Tutup modal otomatis setelah 3 detik
+            setTimeout(() => {
+                tutupModal();
+            }, 3000);
+        } else {
+            alert("Oops! Terjadi kesalahan, coba lagi nanti.");
+            btnSend.innerText = originalText;
+            btnSend.disabled = false;
         }
-
-        window.addEventListener('load', () => {
-            const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-
-            tl.to(".line", { 
-                y: 0, 
-                duration: 2, 
-                stagger: 0.2 
-            })
-            .to("#nav, #subtext, #year-text", { 
-                opacity: 1, 
-                y: 0, 
-                duration: 1.5,
-                stagger: 0.1
-            }, "-=1.5");
-        });
-    </script>
-</body>
-</html>
+    } catch (error) {
+        alert("Gagal terhubung ke server.");
+        btnSend.innerText = originalText;
+        btnSend.disabled = false;
+    }
+});

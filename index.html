@@ -3,35 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ali Wafir | Portfolio</title>
+    <title>Ali Wafir | Digital Designer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap');
-        body { background: white; color: black; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+        
+        body { 
+            background-color: #000; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Efek Outline Khas RH Digital */
+        .outline-text {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            transition: all 0.5s ease;
+        }
+
+        .outline-text:hover {
+            color: #fff;
+            -webkit-text-stroke: 1px #fff;
+            transform: skewX(-5deg);
+        }
+
         .reveal { clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); }
-        .line { display: block; transform: translateY(150px); }
+        .line { display: block; transform: translateY(200px); }
     </style>
 </head>
 <body>
-    <div class="p-8 md:p-16">
-        <header class="flex justify-between mb-32 opacity-0" id="nav">
-            <div class="font-extrabold text-2xl tracking-tighter">ALI WAFIR</div>
-            <div class="space-x-8 font-medium"><span>Work</span><span>About</span></div>
+    <div class="max-w-[1400px] mx-auto px-6 py-10">
+        
+        <header class="flex justify-between items-center mb-32 opacity-0" id="nav">
+            <div class="text-xl font-black tracking-tighter">ALI WAFIR</div>
+            <nav class="space-x-6 text-sm uppercase tracking-widest font-bold">
+                <a href="#" class="hover:text-gray-400">Work</a>
+                <a href="#" class="hover:text-gray-400">Contact</a>
+            </nav>
         </header>
 
-        <h1 class="text-7xl md:text-[10rem] font-extrabold leading-[0.85] tracking-tighter uppercase">
-            <span class="reveal"><span class="line">Digital</span></span>
-            <span class="reveal"><span class="line">Product</span></span>
-            <span class="reveal"><span class="line">Designer</span></span>
-        </h1>
+        <main class="space-y-4">
+            <h1 class="text-[12vw] font-black leading-[0.8] uppercase tracking-tighter">
+                <span class="reveal block"><span class="line outline-text">Digital</span></span>
+                <span class="reveal block"><span class="line">Product</span></span>
+                <span class="reveal block"><span class="line outline-text">Designer</span></span>
+            </h1>
+            
+            <div class="mt-20 opacity-0 translate-y-10" id="subtext">
+                <p class="text-xl text-gray-400 max-w-xl">
+                    Menciptakan solusi digital yang berani dan berdampak tinggi. Berbasis di Indonesia, bekerja secara global.
+                </p>
+            </div>
+        </main>
+
     </div>
 
     <script>
         window.addEventListener('load', () => {
-            const tl = gsap.timeline();
-            tl.to(".line", { y: 0, duration: 1.5, stagger: 0.2, ease: "power4.out" })
-              .to("#nav", { opacity: 1, duration: 1 }, "-=1");
+            const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+
+            tl.to(".line", { 
+                y: 0, 
+                duration: 1.8, 
+                stagger: 0.15 
+            })
+            .to("#nav, #subtext", { 
+                opacity: 1, 
+                y: 0, 
+                duration: 1 
+            }, "-=1");
         });
     </script>
 </body>

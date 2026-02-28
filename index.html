@@ -99,7 +99,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        /* --- MODAL MESSAGE ME (NEW) --- */
+        /* --- MODAL MESSAGE ME --- */
         #chat-modal {
             position: fixed;
             bottom: 120px;
@@ -110,7 +110,7 @@
             padding: 24px;
             color: black;
             z-index: 1000;
-            display: none; /* Awalnya sembunyi */
+            display: none; 
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             transform-origin: bottom right;
         }
@@ -184,17 +184,17 @@
         </div>
         <div class="input-group">
             <label>Name</label>
-            <input type="text" placeholder="Your name">
+            <input type="text" id="sender-name" placeholder="Your name">
         </div>
         <div class="input-group">
             <label>Email</label>
-            <input type="email" placeholder="Your email">
+            <input type="email" id="sender-email" placeholder="Your email">
         </div>
         <div class="input-group">
             <label>Quick message</label>
-            <textarea rows="3" placeholder="How can I help?"></textarea>
+            <textarea id="sender-msg" rows="3" placeholder="How can I help?"></textarea>
         </div>
-        <button class="send-btn">Send message</button>
+        <button class="send-btn" onclick="sendMail()">Send message</button>
         <p class="text-[10px] text-center text-gray-400 mt-3">Average response time 2 hours</p>
     </div>
 
@@ -276,21 +276,44 @@
             });
         });
 
-        // LOGIKA BUKA TUTUP CHAT
+        // LOGIKA BUKA TUTUP CHAT (PERBAIKAN)
         const openChat = document.getElementById('open-chat');
         const closeChat = document.getElementById('close-chat');
         const chatModal = document.getElementById('chat-modal');
 
         openChat.addEventListener('click', () => {
-            chatModal.style.display = 'block';
-            gsap.from(chatModal, { scale: 0.5, opacity: 0, duration: 0.4, ease: "back.out(1.7)" });
+            // Jika modal sedang tertutup, tampilkan.
+            if (chatModal.style.display === 'none' || chatModal.style.display === '') {
+                chatModal.style.display = 'block';
+                gsap.fromTo(chatModal, 
+                    { scale: 0.5, opacity: 0 }, 
+                    { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.7)" }
+                );
+            } else {
+                // Jika sudah terbuka, klik ikon kuning akan menutupnya
+                tutupModal();
+            }
         });
 
-        closeChat.addEventListener('click', () => {
+        closeChat.addEventListener('click', tutupModal);
+
+        function tutupModal() {
             gsap.to(chatModal, { scale: 0.5, opacity: 0, duration: 0.3, onComplete: () => {
                 chatModal.style.display = 'none';
             }});
-        });
+        }
+
+        // FUNGSI KIRIM EMAIL
+        function sendMail() {
+            const name = document.getElementById('sender-name').value;
+            const email = document.getElementById('sender-email').value;
+            const message = document.getElementById('sender-msg').value;
+            
+            const subject = encodeURIComponent(`Project Inquiry from ${name}`);
+            const body = encodeURIComponent(`Hello Ali,\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+            
+            window.location.href = `mailto:mazaimza99@gmail.com?subject=${subject}&body=${body}`;
+        }
 
         window.addEventListener('load', () => {
             const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
